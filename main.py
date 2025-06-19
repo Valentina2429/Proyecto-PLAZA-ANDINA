@@ -40,7 +40,7 @@ def main():
 
     else:
         print("Aun no estan disponibles las otras opciones")    
-print("cambio 1")
+
 main()
 
 

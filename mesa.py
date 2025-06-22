@@ -1,9 +1,12 @@
+from datetime import datetime
+
 class Mesa:
     def __init__(self, id):
         self.id = id
         self.estado = "disponible"
         self.cliente = None
         self.mesero_asignado = None
+        self.hora_asignacion = datetime.now()
     
     def actualizar_estado(self, nuevo_estado):
         self.estado = nuevo_estado

@@ -118,12 +118,106 @@ def MenuInicio(restaurante,empleado,rol):
         else:
             print("\nOpción no válida, ingrese una opción válida 1, 2 o 3")
             MenuInicio(restaurante,empleado, rol)
-                    
+
+    elif rol == "Mesero":
+        print("1. Consultar orden de mesas asignadas")
+        print("2. Notificaciones de atención")
+        print("3. Atender una mesa")
+        print("4. Mesas atendidas")
+        print("5. Salir")
+        opcion = int(input("\nIngrese el número de la opción: "))
+
+        # Criterio 2: Orden de atención
+        if opcion == 1:
+            print("\nConsultando orden de atención...")
+            mesasOrdenadas = empleado.ordenar_mesas_por_prioridad()
+            if not mesasOrdenadas:
+                print("No tienes mesas asignadas.")
+            else:
+                print(f"\nTienes {len(mesasOrdenadas)} mesas asignadas pendientes.")
+                for i, mesa in enumerate(mesasOrdenadas, 1):
+                    print(f"{i}. Mesa ID: {mesa.id} | Estado: {mesa.estado}")
+
+            print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
+            num = int(input("\nIngrese su opción: "))
+            if num == 1:
+                MenuInicio(restaurante, empleado, rol)
+            elif num == 2:
+                print("Saliendo del sistema...")
+                main()
+
+        # Criterio 1: Notificación de atención
+        elif opcion == 2:
+            print("\nNotificaciones de atención:")
+            mesas = [mesa for mesa in empleado.mesas_asignadas if mesa.estado == "ocupada"]
+            if not mesas:
+                print("No tienes mesas que requieran atención.")
+            else:
+                c = 1
+                for mesa in mesas:
+                    print(f"{c}. Mesa {mesa.id}")
+                    c += 1
+
+            print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
+            num = int(input("\nIngrese su opción: "))
+            if num == 1:
+                MenuInicio(restaurante, empleado, rol)
+            elif num == 2:
+                print("Saliendo del sistema...")
+                main()
+
+        # Criterio 4: Confirmar Atención --- Estado = ocupada, Significa que la mesa no está siendo atendida y tiene cliente
+        elif opcion == 3:
+            print("\nAtendiendo una mesa...")
+            mesasOrdenadas = empleado.ordenar_mesas_por_prioridad()
+            if not mesasOrdenadas:
+                print("No tienes mesas asignadas.")
+            else:
+                for i, mesa in enumerate(mesasOrdenadas, 1):
+                    print(f"{i}. Mesa ID: {mesa.id} | Estado: {mesa.estado}")
+                
+                while True:
+                    try:
+                        id_mesa = int(input("\nIngrese el ID de la mesa que desea atender o (0) para Regresar: "))
+                        if id_mesa == 0:
+                            print("Regresando al menu principal...")
+                            MenuInicio(restaurante, empleado, rol)
+                        
+                        mesa_elegida = next((m for m in mesasOrdenadas if m.id == id_mesa), None)
+                        if mesa_elegida:
+                            empleado.atender_mesa(mesa_elegida)
+                            print(f"\nMesa {mesa_elegida.id} atendida exitosamente.")
+
+                            # Aqui debe continuar el proceso de atención, para tomar el pedido. 
+                            # Por ahora solo se imprime un mensaje de éxito.
+                            print(f"Mesa {mesa_elegida.id} está siendo atendida por {empleado.usuario}.")
+
+                        else:
+                            print("ID de mesa no válida o ya atendida.")
+                    except ValueError:
+                        print("Entrada inválida. Intente nuevamente.")
+
+        elif opcion == 4:
+            print("\nMesas atendidas:")
+            empleado.mostrar_mesas_atendidas()
+            print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
+            num = int(input("\nIngrese su opción: "))
+            if num == 1:
+                MenuInicio(restaurante, empleado, rol)
+            elif num == 2:
+                print("Saliendo del sistema...")
+                main()
+
+        elif opcion == 5:
+            print("Saliendo del sistema...")
+            main()
+
+        else:
+            print("\nOpción no válida, ingrese una opción válida 1 o 2")
+            MenuInicio(restaurante,empleado, rol)
+
     else:
         print("Rol no reconocido, no se puede mostrar el menú.")
-
-
-
 
 def main():
     #Crear instancia del restaurante
@@ -147,6 +241,10 @@ def main():
             print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)
         elif rol == "JefeMesero":
+            print(f"\nHas iniciado sesión como {rol}.")
+            print(f'¿Que deseas hacer?')
+            MenuInicio(restaurante,empleado, rol)
+        elif rol == "Mesero":
             print(f"\nHas iniciado sesión como {rol}.")
             print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)

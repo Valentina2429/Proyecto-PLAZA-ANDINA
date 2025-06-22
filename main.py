@@ -4,7 +4,7 @@ from staff import Staff
 from JefeMesero import JefeMesero
 from mesa import Mesa
 
-def Menu(restaurante,empleado,rol):
+def MenuInicio(restaurante,empleado,rol):
     if rol == "Staff":
         print("1. Consultar disponibilidad de mesas")
         print("2. Salir")
@@ -22,14 +22,14 @@ def Menu(restaurante,empleado,rol):
 
             num= int(input("Ingrese su opción: "))
             if num == 1:
-                Menu(restaurante,empleado,rol)
+                MenuInicio(restaurante,empleado,rol)
             elif num == 2:
                 print("Saliendo del sistema...")
                 main()
 
             else:
                 print("\nOpción no válida, ingrese una opción válida 1 o 2")
-                Menu(restaurante,empleado, rol)
+                MenuInicio(restaurante,empleado, rol)
 
         elif opcion == 2:
             print("Saliendo del sistema...")
@@ -37,7 +37,7 @@ def Menu(restaurante,empleado,rol):
 
         else:
             print("\nOpción no válida, ingrese una opción válida 1 o 2")
-            Menu(restaurante,empleado, rol)
+            MenuInicio(restaurante,empleado, rol)
                 
     elif rol == "JefeMesero":
         print("1. Consultar mesas disponibles")
@@ -52,7 +52,7 @@ def Menu(restaurante,empleado,rol):
                 
             num= int(input("\nIngrese su opción: "))
             if num == 1:
-                Menu(restaurante,empleado, rol)
+                MenuInicio(restaurante,empleado, rol)
             elif num == 2:
                 print("Saliendo del sistema...")
                 main()
@@ -103,7 +103,7 @@ def Menu(restaurante,empleado,rol):
                 
                     num= int(input("\nIngrese su opción: "))
                     if num == 1:
-                        Menu(restaurante,empleado, rol)
+                        MenuInicio(restaurante,empleado, rol)
                     elif num == 2:
                         print("Saliendo del sistema...")
                         main()
@@ -116,8 +116,8 @@ def Menu(restaurante,empleado,rol):
             main()
                 
         else:
-            print("\nOpción no válida, ingrese una opción válida 1 o 2")
-            Menu(restaurante,empleado, rol)
+            print("\nOpción no válida, ingrese una opción válida 1, 2 o 3")
+            MenuInicio(restaurante,empleado, rol)
                     
     else:
         print("Rol no reconocido, no se puede mostrar el menú.")
@@ -145,10 +145,10 @@ def main():
         if rol == "Staff":
             print(f"\nHas iniciado sesión como {rol}.")
             print(f'¿Que deseas hacer?')
-            Menu(restaurante,empleado, rol)
+            MenuInicio(restaurante,empleado, rol)
         elif rol == "JefeMesero":
             print(f"\nHas iniciado sesión como {rol}.")
             print(f'¿Que deseas hacer?')
-            Menu(restaurante,empleado, rol)
+            MenuInicio(restaurante,empleado, rol)
 
 main()

@@ -1,6 +1,7 @@
 from mesa import Mesa
 from staff import Staff
 from JefeMesero import JefeMesero
+from mesero import Mesero
 
 class Restaurante:
     def __init__(self,nombre):
@@ -80,7 +81,8 @@ class Restaurante:
                 
         elif rol == "JefeMesero":
             print("1. Consultar mesas disponibles")
-            print("2. Salir")
+            print("2. Asignar mesa y mesero")
+            print("3. Salir")
             opcion = int(input("\nIngrese el número de la opción: "))
             if opcion == 1:
                 print("\nConsultando mesas disponibles...")
@@ -93,7 +95,32 @@ class Restaurante:
                     self.Menu(empleado,rol)
                 elif num == 2:
                     print("Saliendo del sistema...")
-            elif opcion == 2:
+            elif opcion ==2:
+                mesas_dispo = empleado.consultar_disponibilidad_especifica(self.mesas)
+                if not mesas_dispo:
+                    print("No hay mesas disponibles.")
+                    
+            id_mesa = int(input("Ingrese el ID de la mesa: "))
+            mesa_elegida = next((m for m in self.mesas if m.id == id_mesa and m.estado == "disponible"), None)
+            if not mesa_elegida:
+                print("Mesa no valida o no disponible.")
+                
+            sugerido = empleado.sugerir_mesero()
+            if sugerido:
+                print(f"Mesero sugerido: {sugerido.usuario} (mesas: {sugerido.contar_mesas_asignadas()})")
+                confirm = input("¿Aceptar sugerencia? (s/n): ")
+                if confirm != 's':
+                    print("Meseros disponibles:")
+                    for i, m in enumerate(empleado.meseros):
+                        print(f"{i+1}. {m.usuario} ({m.contar_mesas_asignadas()} mesas)")
+                    idx = int(input("Seleccione el número del mesero: ")) - 1
+                    sugerido = empleado.meseros[idx]
+
+                empleado.asignar_mesa_a_cliente(mesa_elegida)
+                empleado.asignar_mesero_a_mesa(mesa_elegida, sugerido)
+                print(f" Mesa {mesa_elegida.id} asignada a {sugerido.usuario}")
+        
+            elif opcion == 3:
                 print("Saliendo del sistema...")
                 
                 
@@ -118,3 +145,5 @@ class Restaurante:
         self.empleados.append(miembro)
         miembro1 = JefeMesero(2, "ValenL","1234")
         self.empleados.append(miembro1)
+        miembro2 = Mesero(3, "Santiago", "1234")
+        self.mesero.append(miembro2)

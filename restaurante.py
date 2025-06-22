@@ -67,3 +67,5 @@ class Restaurante:
         miembro4 = Mesero(2, "Santi","1234")
         self.empleados.append(miembro4)
         miembro1.asignar_mesero_a_mesa(self.mesas[2], miembro4)
+
+        

@@ -3,11 +3,6 @@ from mesero import Mesero
 class JefeMesero(Empleado):
     def __init__(self, id, usuario, contrasena):
         super().__init__(id, usuario, contrasena)
-        self.meseros =  []
-    
-    def agregar_mesero(self, mesero):
-        if isinstance(mesero, Mesero):
-            self.meseros.append(mesero)
     
     def consultar_disponibilidad_especifica(self, mesas):
         mesas_disponibles = [mesa for mesa in mesas if mesa.estado == "disponible"]
@@ -19,7 +14,7 @@ class JefeMesero(Empleado):
             print("No hay mesas disponibles en el restaurante.")
         return len(mesas_disponibles)
     
-    def sugerir_mesero(self):  
+    def sugerir_mesero(self, meseros):  
         if not self.meseros:
             return None
         return min(self.meseros, key=lambda m: m.contar_mesas_asignadas())

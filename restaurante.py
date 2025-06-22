@@ -1,5 +1,7 @@
 from mesa import Mesa
 from staff import Staff
+from JefeMesero import JefeMesero
+
 class Restaurante:
     def __init__(self,nombre):
         self.nombre = nombre
@@ -20,13 +22,16 @@ class Restaurante:
     def verficar_Empleado(self, empleado):
         if isinstance(empleado, Staff):
             return "Staff"
+        elif isinstance(empleado, JefeMesero):
+            return "JefeMesero"
         else:
             return "Empleado no reconocido"
+
+        
         '''
         elif isinstance(empleado, Mesero):
             return "Mesero"
-        elif isinstance(empleado, JefeMesero):
-            return "Jefe de Meseros"
+
         elif isinstance(empleado, Encargado_barra):
             return "Encargado de Barra"
         elif isinstance(empleado, Jefe_cocina):
@@ -60,7 +65,7 @@ class Restaurante:
                     self.Menu(empleado,rol)
                 elif num == 2:
                     print("Saliendo del sistema...")
-                    self.iniciar_Sesion()
+
 
                 else:
                     print("\nOpción no válida, ingrese una opción válida 1 o 2")
@@ -68,14 +73,38 @@ class Restaurante:
 
             elif opcion == 2:
                 print("Saliendo del sistema...")
-                self.iniciar_Sesion()
+
             else:
                 print("\nOpción no válida, ingrese una opción válida 1 o 2")
                 self.Menu(empleado,rol)
-
+                
+        elif rol == "JefeMesero":
+            print("1. Consultar mesas disponibles")
+            print("2. Salir")
+            opcion = int(input("\nIngrese el número de la opción: "))
+            if opcion == 1:
+                print("\nConsultando mesas disponibles...")
+                lista_mesas_dispo = empleado.consultar_disponibilidad_especifica(self.mesas)
+                print(f"Hay {lista_mesas_dispo} mesas disponibles en el restaurante.")
+                print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
+                
+                num= int(input("\nIngrese su opción: "))
+                if num == 1:
+                    self.Menu(empleado,rol)
+                elif num == 2:
+                    print("Saliendo del sistema...")
+            elif opcion == 2:
+                print("Saliendo del sistema...")
+                
+                
+            else:
+                print("\nOpción no válida, ingrese una opción válida 1 o 2")
+                self.Menu(empleado,rol)
+                    
         else:
             print("Rol no reconocido, no se puede mostrar el menú.")
-
+            
+        
 
 
     def simular(self):
@@ -87,4 +116,5 @@ class Restaurante:
 
         miembro = Staff(1, "Andres","1234")
         self.empleados.append(miembro)
-              
+        miembro1 = JefeMesero(2, "ValenL","1234")
+        self.empleados.append(miembro1)

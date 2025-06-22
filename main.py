@@ -1,6 +1,4 @@
 from restaurante import Restaurante
-from empleado import Empleado
-from staff import Staff
 
 def main():
     #Crear instancia del restaurante
@@ -14,6 +12,7 @@ def main():
     empleado = restaurante.iniciar_Sesion()
     if empleado == None:
         print("Usuario o contraseña incorrectos. Saliendo del sistema.")
+        main()
     else:
         print(f"\nBienvenido {empleado.usuario} al restaurante {restaurante.nombre}")
         rol = restaurante.verficar_Empleado(empleado)
@@ -22,8 +21,9 @@ def main():
             print(f"\nHas iniciado sesión como {rol}.")
             print(f'¿Que deseas hacer?')
             restaurante.Menu(empleado, rol)
+        elif rol == "JefeMesero":
+            print(f"\nHas iniciado sesión como {rol}.")
+            print(f'¿Que deseas hacer?')
+            restaurante.Menu(empleado, rol)
 
 main()
-
-
-

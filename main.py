@@ -66,7 +66,6 @@ def MenuInicio(restaurante,empleado,rol):
         elif opcion ==2:
             mesas_dispo = empleado.consultar_disponibilidad_especifica(restaurante.mesas)
             if not mesas_dispo:
-                print("No hay mesas disponibles en el restaurante.")
                 MenuInicio(restaurante, empleado, rol)
             else:
                 while True:
@@ -381,15 +380,12 @@ def main():
         
         if rol == "Staff":
             print(f"\nHas iniciado sesión como {rol}.")
-            print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)
         elif rol == "JefeMesero":
             print(f"\nHas iniciado sesión como {rol}.")
-            print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)
         elif rol == "Mesero":
             print(f"\nHas iniciado sesión como {rol}.")
-            print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)
 
 main()

@@ -81,20 +81,22 @@ class Restaurante:
     
 
     def simular(self):
+        '''
         for i in range(10):
             mesa = Mesa(i)
             if i%2==0:
                 mesa.actualizar_estado("No disponible")
             self.mesas.append(mesa)
-
+        '''
         miembro = Staff(4, "Andres","1234")
         self.empleados.append(miembro)
         miembro1 = JefeMesero(3, "ValeL","1234")
         self.empleados.append(miembro1)
-
+        '''
         miembro3 = Mesero(1, "ValeM","1234")
         self.empleados.append(miembro3)
         miembro1.asignar_mesero_a_mesa(self.mesas[0], miembro3)
+        
 
         miembro4 = Mesero(2, "Santi","1234")
         self.empleados.append(miembro4)
@@ -117,3 +119,4 @@ class Restaurante:
         self.agregar_profucto_menu(produ2)
         self.agregar_profucto_menu(produ3)
         self.agregar_profucto_menu(produ4)
+        '''

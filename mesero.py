@@ -42,3 +42,5 @@ class Mesero(Empleado):
             print(f"Mesa {mesa.id} está siendo atendida por {self.usuario}.")
         else:
             print(f"Mesa {mesa.id} no está asignada a {self.usuario}.")
+
+    

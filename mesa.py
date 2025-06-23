@@ -7,6 +7,7 @@ class Mesa:
         self.cliente = None
         self.mesero_asignado = None
         self.hora_asignacion = datetime.now()
+        self.pedido = None
     
     def actualizar_estado(self, nuevo_estado):
         self.estado = nuevo_estado

@@ -2,12 +2,16 @@ from mesa import Mesa
 from staff import Staff
 from JefeMesero import JefeMesero
 from mesero import Mesero
+from comida import Comida
+from licor import Licor
+from coctel import Coctel
 
 class Restaurante:
     def __init__(self,nombre):
         self.nombre = nombre
         self.mesas = []
         self.empleados = []
+        self.menu = []
 
     
     def iniciar_Sesion(self):
@@ -20,6 +24,34 @@ class Restaurante:
                 return empleado
         return None
     
+    def agregar_profucto_menu(self, producto):
+        self.menu.append(producto)
+    
+    def menu_por_tipo(self, tipo):
+        print(f"\nMenu de {tipo}:")
+        tipo = tipo.capitalize()
+        categoria = []
+        i=1
+
+        for producto in self.menu:
+            if tipo == "Comida" and isinstance(producto, Comida):
+                print(f"{i}.{producto.nombre} - ${producto.precio:.2f}")
+                categoria.append(producto)
+                i+=1
+
+            elif tipo == "Licor" and isinstance(producto, Licor):
+                print(f"{i}.{producto.nombre} - ${producto.precio:.2f}")
+                categoria.append(producto)
+                i+=1
+
+            elif tipo == "Coctel" and isinstance(producto, Coctel):
+                print(f"{i}.{producto.nombre} - ${producto.precio:.2f}")
+                categoria.append(producto)
+                i+=1
+
+        return categoria
+
+
     def verficar_Empleado(self, empleado):
         if isinstance(empleado, Staff):
             return "Staff"
@@ -75,3 +107,13 @@ class Restaurante:
         miembro1.asignar_mesero_a_mesa(self.mesas[1], miembro4)
         miembro1.asignar_mesero_a_mesa(self.mesas[3], miembro4)
         miembro1.asignar_mesero_a_mesa(self.mesas[5], miembro4)
+
+        produ1 = Comida("Hamburguesa", 10.99)
+        produ2 = Comida("Pizza", 8.99)
+        produ3 = Licor("Cerveza", 3.50)
+        produ4 = Coctel("Mojito", 5.00)
+
+        self.agregar_profucto_menu(produ1)
+        self.agregar_profucto_menu(produ2)
+        self.agregar_profucto_menu(produ3)
+        self.agregar_profucto_menu(produ4)

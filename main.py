@@ -105,14 +105,14 @@ def MenuInicio(restaurante,empleado,rol):
                     print(f"\nMesa {mesa_elegida.id} asignada a {elegido.usuario} con ID {elegido.id}.")
                     
                     print("\n¿Deseas confirmar la asignacion? (1: Sí, 2: No ) ")
-                    opc = int(input("\nIngrese su occion: "))
+                    opc = int(input("\nIngrese su opcion: "))
                     if opc == 1:
                         print("Asignación guardada exitosamente.")
                     else:
-                        print("Saliendo del sistema...")
+                        print("Regresando al menú principal...")
+                        MenuInicio(restaurante, empleado, rol)
 
                     print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No) ")
-                
                     num= int(input("\nIngrese su opción: "))
                     if num == 1:
                         MenuInicio(restaurante,empleado, rol)
@@ -120,14 +120,6 @@ def MenuInicio(restaurante,empleado,rol):
                         print("Saliendo del sistema...")
                         main()
 
-                    print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
-                
-                    num= int(input("\nIngrese su opción: "))
-                    if num == 1:
-                        MenuInicio(restaurante,empleado, rol)
-                    elif num == 2:
-                        print("Saliendo del sistema...")
-                        main()
 
                 else:
                     print("No hay meseros disponibles para asignar a la mesa.")

@@ -6,6 +6,9 @@ from mesa import Mesa
 
 def MenuInicio(restaurante,empleado,rol):
     if rol == "Staff":
+        print("_____________________________________________________________________________________")
+        print("\nBienvenido al menú del Staff")
+        print("¿Qué deseas hacer?")
         print("1. Consultar disponibilidad de mesas")
         print("2. Salir")
         opcion = int(input("Ingrese el número de la opción: "))
@@ -40,6 +43,9 @@ def MenuInicio(restaurante,empleado,rol):
             MenuInicio(restaurante,empleado, rol)
                 
     elif rol == "JefeMesero":
+        print("_____________________________________________________________________________________")
+        print("\nBienvenido al menú del Jefe de Meseros")
+        print("¿Qué deseas hacer?")
         print("1. Consultar mesas disponibles")
         print("2. Asignar mesa a cliente y mesero")
         print("3. Salir")
@@ -60,7 +66,7 @@ def MenuInicio(restaurante,empleado,rol):
         elif opcion ==2:
             mesas_dispo = empleado.consultar_disponibilidad_especifica(restaurante.mesas)
             if not mesas_dispo:
-                print("No hay mesas disponibles.")
+                MenuInicio(restaurante, empleado, rol)
             else:
                 while True:
                     try:
@@ -97,15 +103,9 @@ def MenuInicio(restaurante,empleado,rol):
                     empleado.asignar_mesa_a_cliente(mesa_elegida)
                     empleado.asignar_mesero_a_mesa(mesa_elegida, elegido)
                     print(f"\nMesa {mesa_elegida.id} asignada a {elegido.usuario} con ID {elegido.id}.")
-                    
-                    print("\n¿Deseas confirmar el pedido? (1: Sí, 2: No ) ")
-                    opc = int(input("\nIngrese su occion: "))
-                    if opc == 1:
-                        print("Asignación guardada exitosamente.")
-                    else:
-                        print("Saliendo del sistema...")
+                    print("Asignación guardada exitosamente.")
 
-                    print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No) ")
+                    print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
                 
                     num= int(input("\nIngrese su opción: "))
                     if num == 1:
@@ -126,10 +126,13 @@ def MenuInicio(restaurante,empleado,rol):
             MenuInicio(restaurante,empleado, rol)
 
     elif rol == "Mesero":
+        print("_____________________________________________________________________________________")
+        print("\nBienvenido al menú del Mesero")
+        print("¿Qué deseas hacer?")
         print("1. Consultar orden de mesas asignadas")
-        print("2. Notificaciones de atención")
-        print("3. Atender una mesa")
-        print("4. Mesas atendidas")
+        print("2. Atender una mesa")
+        print("3. Mesas atendidas")
+        print("4. Registrar pedido")
         print("5. Salir")
         opcion = int(input("\nIngrese el número de la opción: "))
 
@@ -152,28 +155,9 @@ def MenuInicio(restaurante,empleado,rol):
                 print("Saliendo del sistema...")
                 main()
 
-        # Criterio 1: Notificación de atención
-        elif opcion == 2:
-            print("\nNotificaciones de atención:")
-            mesas = [mesa for mesa in empleado.mesas_asignadas if mesa.estado == "ocupada"]
-            if not mesas:
-                print("No tienes mesas que requieran atención.")
-            else:
-                c = 1
-                for mesa in mesas:
-                    print(f"{c}. Mesa {mesa.id}")
-                    c += 1
-
-            print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
-            num = int(input("\nIngrese su opción: "))
-            if num == 1:
-                MenuInicio(restaurante, empleado, rol)
-            elif num == 2:
-                print("Saliendo del sistema...")
-                main()
 
         # Criterio 4: Confirmar Atención --- Estado = ocupada, Significa que la mesa no está siendo atendida y tiene cliente
-        elif opcion == 3:
+        elif opcion == 2:
             print("\nAtendiendo una mesa...")
             mesasOrdenadas = empleado.ordenar_mesas_por_prioridad()
             if not mesasOrdenadas:
@@ -203,7 +187,8 @@ def MenuInicio(restaurante,empleado,rol):
                     except ValueError:
                         print("Entrada inválida. Intente nuevamente.")
 
-        elif opcion == 4:
+        elif opcion == 3:
+        
             print("\nMesas atendidas:")
             empleado.mostrar_mesas_atendidas()
             print("\n¿Deseas regresar al menú principal? (1: Sí, 2: No)")
@@ -213,7 +198,158 @@ def MenuInicio(restaurante,empleado,rol):
             elif num == 2:
                 print("Saliendo del sistema...")
                 main()
+        
+        #Funcionalidad 5 para registrar un pedido
+        elif opcion == 4:
+            pedido =[]
+            while True:
+                try:
+                    print("\n¿Que deseas hacer?")
+                    print("1. Agregar producto al pedido")
+                    print("2. Modificar cantidad de productos del pedido")
+                    print("3. Eliminar productos del pedido")
+                    print("4. Previsulizar pedido y confirmar")
+                    print("5. Salir")
+                    num = int(input("\nIngrese su opción:"))
+                except ValueError:
+                    print("Por favor, ingrese un número válido.")
+                    continue   
 
+                #Agregar producto al pedido
+                if num==1:
+                    while True:
+                        try:
+                            print("\n¿Deseas agregar un nuevo producto al pedido? (1: Sí, 2: No)")
+                            eleccion = int(input("Ingrese su opción: "))
+                        except ValueError:
+                            print("Por favor, ingrese un número válido.")
+                            continue 
+
+                        if eleccion == 1:
+                            print("\nPara registrar pedido...")
+                            print("Elige la categoria del producto que deseas registrar:")
+                            print("1. Comida")
+                            print("2. Licor")
+                            print("3. Coctel")      
+
+                            #Criterio 2: Seleccionar categoria del menu  
+                            while True:
+                                try:
+                                    categoria = int(input("Ingrese el número de la de la categoria deseada: "))
+                                except ValueError:
+                                    print("Por favor, ingrese un número.")
+                                    continue
+                                if categoria in [1, 2, 3]:
+                                    break
+                                else:
+                                    print("Categoría no válida. Ingrese 1, 2 o 3.")
+
+                            menu_por_categoria = restaurante.menu_por_tipo("Comida" if categoria == 1 else "Licor" if categoria == 2 else "Coctel")
+
+
+                            #Criterio 3: Seleccionar producto del menu
+                            while True:
+                                try:
+                                    producto = int(input("\nIngresa el numero del producto que deseas agregar al pedido:"))
+                                except ValueError:
+                                    print("Por favor, ingrese un número.")
+                                    continue
+                                if producto!=0 and producto<=len(menu_por_categoria):
+                                    break
+                                else:
+                                    print("Categoría no válida.")
+                            
+                            #Criterio 4:Ingresar la cantidad del producto
+                            while True:
+                                try:
+                                    cantidad = int(input("\nIngresa la cantidad del producto que deseas agregar al pedido:"))
+                                except ValueError:
+                                    print("Por favor, ingrese un número.")
+                                    continue
+                                if cantidad>0:
+                                    break
+                                else:
+                                    print("Cantidad no válida. Debe ser un número positivo.")
+                            
+
+                            pedido.append((menu_por_categoria[producto-1], cantidad))
+                            print(f"\nProducto {menu_por_categoria[producto-1].nombre} ha sido agregado al pedido. Cantidad: {cantidad}")
+
+
+                        elif eleccion == 2:
+                            break
+                        else:
+                            print("Opción no válida. Por favor, ingrese 1 o 2.")
+                
+                #Criterio 5: Modificar cantidad de productos del pedido
+                elif num==2:
+                    print("Productos actuales en el pedido:")
+                    for i, (prod, cant) in enumerate(pedido,1):
+                        print(f"{i}. {prod.nombre} - Cantidad: {cant}")
+
+                    while True:
+                        try:
+                            modificar = int(input("Ingrese el número del producto que desea modificar (0 para salir): "))
+                            if modificar == 0:
+                                break
+                            elif 1 <= modificar <= len(pedido):
+                                nueva_cantidad = int(input(f"Ingrese la nueva cantidad para {pedido[modificar-1][0].nombre}: "))
+                                if nueva_cantidad > 0:
+                                    pedido[modificar-1] = (pedido[modificar-1][0], nueva_cantidad)
+                                    print(f"Cantidad de {pedido[modificar-1][0].nombre} actualizada a {nueva_cantidad}.")
+                                else:
+                                    print("Cantidad no válida. Debe ser un número positivo.")
+                            else:
+                                print("Número de producto no válido.")
+                        except ValueError:
+                            print("Por favor, ingrese un número válido.")
+                
+                #Criterio 6: Eliminar productos del pedido
+                elif num==3:
+                    print("Productos actuales en el pedido:")
+                    for i, (prod, cant) in enumerate(pedido, 1):
+                        print(f"{i}. {prod.nombre} - Cantidad: {cant}")
+
+                    while True:
+                        try:
+                            eliminar = int(input("Ingrese el número del producto que desea eliminar (0 para salir): "))
+                            if eliminar == 0:
+                                break
+                            elif 1 <= eliminar <= len(pedido):
+                                eliminado = pedido.pop(eliminar-1)
+                                print(f"Producto {eliminado[0].nombre} eliminado del pedido.")
+                            else:
+                                print("Número de producto no válido.")
+                        except ValueError:
+                            print("Por favor, ingrese un número válido.")
+                
+                #Criterio 7: Previsualizar pedido y confirmar
+                elif num==4:
+                    
+                    if not pedido:
+                        print("No hay productos en el pedido.")
+                    else:
+                        print("\nPedido actual:")
+                        total = 0
+                        for prod, cant in pedido:
+                            subtotal = prod.precio * cant
+                            total += subtotal
+                            print(f"{prod.nombre} - Cantidad: {cant} - Subtotal: ${subtotal:.2f}")
+                        print(f"Total del pedido: ${total:.2f}")
+
+                        confirmar = input("\n¿Deseas confirmar el pedido? (si/no): ").lower()
+                        if confirmar == 'si':
+                            print("Pedido confirmado.")
+                            empleado.mesas_atendidas[-1].pedido = pedido
+                        else:
+                            print("Pedido no confirmado. Regresando al menú principal.")
+
+                elif num==5:
+                    MenuInicio(restaurante, empleado, rol)
+
+                else:
+                    print("Opción no válida. Por favor, ingrese 1, 2, 3 o 4.")
+        
         elif opcion == 5:
             print("Saliendo del sistema...")
             main()
@@ -244,15 +380,12 @@ def main():
         
         if rol == "Staff":
             print(f"\nHas iniciado sesión como {rol}.")
-            print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)
         elif rol == "JefeMesero":
             print(f"\nHas iniciado sesión como {rol}.")
-            print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)
         elif rol == "Mesero":
             print(f"\nHas iniciado sesión como {rol}.")
-            print(f'¿Que deseas hacer?')
             MenuInicio(restaurante,empleado, rol)
 
 main()

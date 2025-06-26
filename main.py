@@ -215,8 +215,9 @@ def MenuInicio(restaurante,empleado,rol):
                     print("1. Agregar producto al pedido")
                     print("2. Modificar cantidad de productos del pedido")
                     print("3. Eliminar productos del pedido")
-                    print("4. Previsulizar pedido y confirmar")
-                    print("5. Salir")
+                    print("4. Modificar obervaciones")
+                    print("5. Previsulizar pedido y confirmar")
+                    print("6. Salir")
                     num = int(input("\nIngrese su opción:"))
                 except ValueError:
                     print("Por favor, ingrese un número válido.")
@@ -277,10 +278,12 @@ def MenuInicio(restaurante,empleado,rol):
                                     break
                                 else:
                                     print("Cantidad no válida. Debe ser un número positivo.")
-                            
 
-                            pedido.append((menu_por_categoria[producto-1], cantidad))
-                            print(f"\nProducto {menu_por_categoria[producto-1].nombre} ha sido agregado al pedido. Cantidad: {cantidad}")
+                            
+                            obs = input("\nIngrese una observación para el producto (opcional, sino aplica ponga N/A):")
+
+                            pedido.append((menu_por_categoria[producto-1], cantidad, obs))
+                            print(f"\nProducto {menu_por_categoria[producto-1].nombre} ha sido agregado al pedido. Cantidad: {cantidad} con la siguiemte observacion {obs}")
 
 
                         elif eleccion == 2:
@@ -291,8 +294,8 @@ def MenuInicio(restaurante,empleado,rol):
                 #Criterio 5: Modificar cantidad de productos del pedido
                 elif num==2:
                     print("Productos actuales en el pedido:")
-                    for i, (prod, cant) in enumerate(pedido,1):
-                        print(f"{i}. {prod.nombre} - Cantidad: {cant}")
+                    for i, (prod, cant,obs) in enumerate(pedido,1):
+                        print(f"{i}. {prod.nombre} - Cantidad: {cant} - Observación: {obs}")
 
                     while True:
                         try:
@@ -314,8 +317,8 @@ def MenuInicio(restaurante,empleado,rol):
                 #Criterio 6: Eliminar productos del pedido
                 elif num==3:
                     print("Productos actuales en el pedido:")
-                    for i, (prod, cant) in enumerate(pedido, 1):
-                        print(f"{i}. {prod.nombre} - Cantidad: {cant}")
+                    for i, (prod, cant, obs) in enumerate(pedido, 1):
+                        print(f"{i}. {prod.nombre} - Cantidad: {cant} - Observación: {obs}")
 
                     while True:
                         try:
@@ -329,29 +332,50 @@ def MenuInicio(restaurante,empleado,rol):
                                 print("Número de producto no válido.")
                         except ValueError:
                             print("Por favor, ingrese un número válido.")
+
+                #Criterio 7: Modificar observaciones
+                elif num==4:   
+                    print("Productos actuales en el pedido:")
+                    for i, (prod, cant, obs) in enumerate(pedido, 1):
+                        print(f"{i}. {prod.nombre} - Cantidad: {cant} - Observación: {obs}")
+
+                    while True:
+                        try:
+                            modificar_obs = int(input("Ingrese el número del producto cuya observación desea modificar (0 para salir): "))
+                            if modificar_obs == 0:
+                                break
+                            elif 1 <= modificar_obs <= len(pedido):
+                                nueva_obs = input(f"Ingrese la nueva observación para {pedido[modificar_obs-1][0].nombre}: ")
+                                pedido[modificar_obs-1] = (pedido[modificar_obs-1][0], pedido[modificar_obs-1][1], nueva_obs)
+                                print(f"Observación de {pedido[modificar_obs-1][0].nombre} actualizada a '{nueva_obs}'.")
+                            else:
+                                print("Número de producto no válido.")
+                        except ValueError:
+                            print("Por favor, ingrese un número válido.")
                 
-                #Criterio 7: Previsualizar pedido y confirmar
-                elif num==4:
+                #Criterio 8: Previsualizar pedido y confirmar
+                elif num==5:
                     
                     if not pedido:
                         print("No hay productos en el pedido.")
                     else:
                         print("\nPedido actual:")
                         total = 0
-                        for prod, cant in pedido:
+                        for prod, cant, obs in pedido:
                             subtotal = prod.precio * cant
                             total += subtotal
-                            print(f"{prod.nombre} - Cantidad: {cant} - Subtotal: ${subtotal:.2f}")
+                            print(f"{prod.nombre} - Cantidad: {cant}- Observaciones: {obs} - Subtotal: ${subtotal:.2f}")
                         print(f"Total del pedido: ${total:.2f}")
 
-                        confirmar = input("\n¿Deseas confirmar el pedido? (si/no): ").lower()
-                        if confirmar == 'si':
+                        confirmar = int(input("\n¿Deseas confirmar el pedido? (1:si/2:no): "))
+                        if confirmar == 1:
                             print("Pedido confirmado.")
                             empleado.mesas_atendidas[-1].pedido = pedido
                         else:
+                            
                             print("Pedido no confirmado. Regresando al menú principal.")
 
-                elif num==5:
+                elif num==6:
                     MenuInicio(restaurante, empleado, rol)
 
                 else:

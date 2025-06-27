@@ -176,24 +176,28 @@ def MenuInicio(restaurante,empleado,rol):
                 while True:
                     try:
                         id_mesa = int(input("\nIngrese el ID de la mesa que desea atender o (0) para Regresar: "))
-                        if id_mesa == 0:
+                    except ValueError:
+                        print("Entrada inválida. Intente nuevamente.")
+                        continue
+                    if id_mesa == 0:
                             print("Regresando al menu principal...")
                             MenuInicio(restaurante, empleado, rol)
                         
-                        mesa_elegida = next((m for m in mesasOrdenadas if m.id == id_mesa), None)
-                        if mesa_elegida:
-                            empleado.atender_mesa(mesa_elegida)
-                            print(f"\nMesa {mesa_elegida.id} atendida exitosamente.")
+                    mesa_elegida = next((m for m in mesasOrdenadas if m.id == id_mesa), None)
+                    if mesa_elegida:
+                        empleado.atender_mesa(mesa_elegida)
+                        print(f"\nMesa {mesa_elegida.id} atendida exitosamente.")
 
                             # Aqui debe continuar el proceso de atención, para tomar el pedido. 
                             # Por ahora solo se imprime un mensaje de éxito.
-                            print(f"Mesa {mesa_elegida.id} está siendo atendida por {empleado.usuario}.")
+                        print(f"Mesa {mesa_elegida.id} está siendo atendida por {empleado.usuario}.")
+                        break   
 
-                        else:
-                            print("ID de mesa no válida o ya atendida.")
-                    except ValueError:
-                        print("Entrada inválida. Intente nuevamente.")
+                    else:
+                        print("ID de mesa no válida o ya atendida.")
 
+                MenuInicio(restaurante, empleado, rol)   
+ 
         elif opcion == 3:
         
             print("\nMesas atendidas:")
@@ -305,7 +309,7 @@ def MenuInicio(restaurante,empleado,rol):
                             elif 1 <= modificar <= len(pedido):
                                 nueva_cantidad = int(input(f"Ingrese la nueva cantidad para {pedido[modificar-1][0].nombre}: "))
                                 if nueva_cantidad > 0:
-                                    pedido[modificar-1] = (pedido[modificar-1][0], nueva_cantidad)
+                                    pedido[modificar-1] = (pedido[modificar-1][0], nueva_cantidad, pedido[modificar-1][2])
                                     print(f"Cantidad de {pedido[modificar-1][0].nombre} actualizada a {nueva_cantidad}.")
                                 else:
                                     print("Cantidad no válida. Debe ser un número positivo.")
@@ -372,7 +376,7 @@ def MenuInicio(restaurante,empleado,rol):
                             print("Pedido confirmado.")
                             empleado.mesas_atendidas[-1].pedido = pedido
                         else:
-                            
+
                             print("Pedido no confirmado. Regresando al menú principal.")
 
                 elif num==6:
